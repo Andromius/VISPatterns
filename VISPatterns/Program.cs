@@ -57,6 +57,7 @@ namespace VISPatterns
                 }
                 Console.WriteLine();
             }
+            else { Console.WriteLine("No items found"); }
 
             //Tady by to mělo přijít z identitní mapy
             foods = new FoodDataMapper().FindByType('D');
@@ -68,6 +69,11 @@ namespace VISPatterns
                 }
                 Console.WriteLine();
             }
+            else { Console.WriteLine("No items found"); }
+
+            //Tady nic nepřijde, je zadán nesprávný typ
+            foods = new FoodDataMapper().FindByType('A');
+            Console.WriteLine(foods is null ? $"List of foods is null" : foods);
 
         }
     }
