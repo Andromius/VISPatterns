@@ -59,19 +59,26 @@ namespace DataAccessLayer
 
         public List<Food> FindByType(char type)
         {
-            if(type != 'N' && type != 'M' && type != 'D')
+            if (type != 'N' && type != 'M' && type != 'D')
             {
                 Console.WriteLine($"\u001b[31mItem of type {type} doesn't exist in the DB\u001b[0m");
                 return null;
             }
-            List<Food> foods = new List<Food>();
+
+            List<Food> foods = FoodIdentityMap.GetFood(type);
+            if (foods != null)
+            {
+                return foods;
+            }
+
+            foods = new List<Food>();
             foreach (var item in FoodMockDB.database)
             {
-                if(item.type == type)
+                if (item.type == type)
                 {
                     switch (type)
                     {
-                        case 'D': 
+                        case 'D':
                             foods.Add(new Dessert(FoodMockDB.database.IndexOf(item), item.name, item.price, item.cherryAmount.Value));
                             break;
                         case 'M':
@@ -83,7 +90,12 @@ namespace DataAccessLayer
                     }
                 }
             }
-            return foods.Count > 0 ? foods : null;
+            if(foods.Count > 0) 
+            { 
+                FoodIdentityMap.Add(type, foods);
+                return foods;
+            }
+            return null;
         }
 
         public void Insert(Food f)

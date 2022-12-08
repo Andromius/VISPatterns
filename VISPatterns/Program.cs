@@ -58,6 +58,17 @@ namespace VISPatterns
                 Console.WriteLine();
             }
 
+            //Tady by to mělo přijít z identitní mapy
+            foods = new FoodDataMapper().FindByType('D');
+            if (foods != null)
+            {
+                foreach (var item in foods)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine();
+            }
+
         }
     }
 }

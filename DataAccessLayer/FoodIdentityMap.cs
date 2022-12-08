@@ -10,9 +10,14 @@ namespace DataAccessLayer
     internal class FoodIdentityMap
     {
         private static Dictionary<int, Food> identityMap = new Dictionary<int, Food>();
+        private static Dictionary<char, List<Food>> identityMapByType = new Dictionary<char, List<Food>>();
         public static void Add(int id, Food f)
         {
             identityMap.Add(id, f);
+        }
+        public static void Add(char type, List<Food> foods) 
+        {
+            identityMapByType.Add(type, foods);
         }
         public static Food GetFood(int id)
         {
@@ -24,10 +29,21 @@ namespace DataAccessLayer
             }
             return f;
         }
+        public static List<Food> GetFood(char type)
+        {
+            List<Food> foods = null;
+            if(identityMapByType.TryGetValue(type, out foods))
+            {
+                Console.WriteLine($"\u001b[32mFrom {nameof(FoodIdentityMap)}\u001b[0m");
+                return foods;
+            }
+            return foods;
+        }
         public static void Clear()
         {
             Console.WriteLine($"\u001b[31m{nameof(FoodIdentityMap)} cleared\u001b[0m");
             identityMap.Clear();
+            identityMapByType.Clear();
         }
     }
 }
